@@ -3,7 +3,50 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
+import io
+import requests
+import zipfile
+import chardet
 
+def load_data_from_drive_zip(link):
+    """
+    Loads data from a zip file on Google Drive containing a text file with pipe-separated data.
+    
+    Args:
+        link (str): The Google Drive link to the zip file.
+    
+    Returns:
+        pandas.DataFrame: The data as a pandas DataFrame.
+    """
+    try:
+        # Extract the file ID from the link
+        file_id = link.split('/')[-2]
+        
+        # Construct the download URL
+        download_url = f'https://drive.google.com/uc?id={file_id}&export=download'
+
+        # Download the zip file
+        response = requests.get(download_url)
+        response.raise_for_status()  # Raise an exception for bad responses
+
+        # Extract the text file from the zip
+        with zipfile.ZipFile(io.BytesIO(response.content)) as z:
+            text_file_name = z.namelist()[0]  # Assuming only one file in the zip
+            with z.open(text_file_name) as text_file:
+                # Detect encoding
+                rawdata = text_file.read(10000)
+                encoding = chardet.detect(rawdata)['encoding']
+                print(f"Detected encoding: {encoding}")
+                
+                # Read the data into a pandas DataFrame
+                text_file.seek(0)  # Reset file pointer
+                df = pd.read_csv(text_file, sep='|', encoding=encoding)
+                
+        return df
+
+    except Exception as e:
+        print(f"Error loading data: {e}")
+        return None
 def load_data(file_path):
     """
     Load the dataset into a Pandas DataFrame.
@@ -13,6 +56,7 @@ def load_data(file_path):
     elif file_path.endswith('.csv'):
         data = pd.read_csv(file_path, encoding='utf-8')
     return data
+
 
 def clean_data(df, numeric_columns=None):
     """
