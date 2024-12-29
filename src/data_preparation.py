@@ -25,6 +25,7 @@ def load_data_from_drive_zip(link):
         # Construct the download URL
         download_url = f'https://drive.google.com/uc?id={file_id}&export=download'
 
+
         # Download the zip file
         response = requests.get(download_url)
         response.raise_for_status()  # Raise an exception for bad responses
