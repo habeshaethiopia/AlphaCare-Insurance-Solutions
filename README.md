@@ -1,111 +1,63 @@
-# **TellCo Data Analysis and Profitability Insights**
+# Insurance Analytics EDA
 
-## **Project Overview**
-This project aims to analyze customer data from **TellCo**, a mobile service provider in the Republic of Pefkakia. The objective is to uncover insights that can drive profitability and support the investor's decision-making on whether to acquire TellCo. Deliverables include an analysis report and an interactive web-based dashboard.
-
----
-
-## **Key Objectives**
-1. Perform exploratory data analysis (EDA) to uncover customer behavior patterns.
-2. Identify opportunities for growth and profitability improvement.
-3. Build an interactive dashboard for data exploration and insight visualization.
-4. Develop modular and production-ready Python code to automate workflows and ensure scalability.
+This repository contains exploratory data analysis (EDA) for historical car insurance claim data from **AlphaCare Insurance Solutions (ACIS)**. The goal of this analysis is to optimize marketing strategies and identify "low-risk" clients to attract new business by offering competitive premiums.
 
 ---
 
-## **Technologies and Tools**
-- **Programming Languages:** Python  
-- **Libraries/Modules:** Pandas, NumPy, Matplotlib, Seaborn, Scikit-learn, Prophet  
-- **Data Visualization:** Plotly, Streamlit  
-- **Database:** PostgreSQL  
-- **CI/CD:** GitHub Actions  
-- **Testing:** Pytest  
-- **Web Frameworks:** Flask, Streamlit  
+## Project Objectives
+
+- Understand the structure and distribution of the data.
+- Explore patterns and relationships among key variables.
+- Segment clients into risk profiles (e.g., high-risk and low-risk).
+- Provide actionable insights for optimizing insurance marketing strategies.
 
 ---
 
-## **Folder Structure**
-```
-📁 TellCo-Data-Analysis/
-│
-├── .vscode/                # VSCode configuration
-│   └── settings.json       # Editor settings
-│
-├── .github/                # GitHub configuration
-│   └── workflows/
-│       ├── unittests.yml   # CI/CD for running unit tests
-│
-├── .gitignore              # Git ignore file
-│
-├── requirements.txt        # Python dependencies
-│
-├── README.md               # Project overview and guide
-│
-├── src/                    # Source code for the application
-│   ├── __init__.py         # Module initialization
-│
-├── notebooks/              # Jupyter notebooks for data analysis
-│   ├── __init__.py         # Module initialization
-│   └── README.md           # Instructions for using notebooks
-│
-├── tests/                  # Unit tests for the project
-│   ├── __init__.py         # Module initialization
-│
-└── scripts/                # Utility scripts for automation and pipelines
-    ├── __init__.py         # Module initialization
-    └── README.md           # Documentation for scripts
-```
+## Dataset Overview
+
+The dataset includes historical insurance data from **February 2014** to **August 2015**, covering various client demographics, vehicle details, and insurance claims.
+
+### Key Columns
+
+- **Policy Details**: `UnderwrittenCoverID`, `PolicyID`, `TransactionMonth`
+- **Client Information**: `IsVATRegistered`, `Citizenship`, `LegalType`, `Gender`, `Province`, `MaritalStatus`
+- **Vehicle Information**: `VehicleType`, `RegistrationYear`, `Make`, `Model`, `CubicCapacity`
+- **Insurance Plan**: `SumInsured`, `CalculatedPremiumPerTerm`, `CoverType`, `TotalPremium`, `TotalClaims`
 
 ---
 
-## **Setup and Installation**
-1. **Clone the repository:**  
-   ```bash
-   git clone https://github.com/username/TellCo-Data-Analysis.git
-   cd TellCo-Data-Analysis
-   ```
+## Analysis Steps
 
-2. **Install dependencies:**  
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Run the application (e.g., dashboard):**  
-   ```bash
-   streamlit run src/dashboard.py
-   ```
-
-4. **Run unit tests:**  
-   ```bash
-   pytest tests/
-   ```
+1. **Data Cleaning**: Handle missing values and ensure consistency in data types.
+2. **Exploratory Analysis**:
+   - Distribution of premiums, claims, and insured sums.
+   - Relationships between variables (e.g., `TotalPremium` vs. `TotalClaims`).
+   - Client segmentation by demographics, geography, and risk.
+3. **Visualization**:
+   - Histograms, scatter plots, bar charts, and heatmaps.
+4. **Insights**:
+   - Identify high-risk and low-risk clients.
+   - Regional trends in claims and premiums.
+   - Correlations between client attributes and claim rates.
 
 ---
 
-## **Usage**
-1. **Notebooks:**  
-   The `notebooks/` folder contains detailed Jupyter notebooks for EDA and ML experiments.  
+## Repository Structure
 
-2. **Scripts:**  
-   The `scripts/` folder holds reusable scripts for ETL, preprocessing, and automation workflows.  
-
-3. **Testing:**  
-   The `tests/` folder includes unit tests to validate the functionality of various modules.  
-
----
-
-## **Deliverables**
-1. **Interactive Dashboard:**  
-   A web-based tool for exploring data and insights.  
-
-2. **Business Report:**  
-   A detailed document summarizing analysis findings and recommendations.  
-
-3. **Codebase:**  
-   Well-organized, modular, and production-ready code.  
-
----
-
-## **Contributors**
-- **[Adane Moges]**  
-
+```plaintext
+.
+├── data/                     # Dataset (not included for privacy)
+├── notebooks/                # Jupyter notebooks for EDA
+├── scripts/                  # Python scripts for data preprocessing and visualization
+├── src/                      # Source code for the project
+│   ├── __init__.py           # Initialize the src module
+│   ├── data_preprocessing.py # Data preprocessing scripts
+│   ├── visualization.py      # Visualization scripts
+│   └── analysis.py           # Analysis scripts
+├── tests/                    # Unit tests for the project
+│   ├── __init__.py           # Initialize the tests module
+│   ├── test_data_preprocessing.py # Unit tests for data preprocessing
+│   ├── test_visualization.py      # Unit tests for visualization
+│   └── test_analysis.py           # Unit tests for analysis
+├── README.md                 # Project documentation
+└── requirements.txt          # Python dependencies
