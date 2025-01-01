@@ -32,30 +32,43 @@ class DataLoader:
         """
         return link.split('/')[-2]
 
-    def load_data_from_drive_zip(self):
+    def load_data_from_drive_zip(self, link):
         """
         Loads data from a zip file on Google Drive containing a text file with pipe-separated data.
+        
+        Args:
+            link (str): The Google Drive link to the zip file.
         
         Returns:
             pandas.DataFrame: The data as a pandas DataFrame.
         """
         try:
-            # Download the zip file
-            response = requests.get(self.download_url)
-            response.raise_for_status()  # Raise an exception for bad responses
+            # Extract the file ID from the link
+            file_id = link.split('/')[-2]
             
-            # Extract the zip file
+            # Construct the download URL
+            download_url = f'https://drive.google.com/uc?id={file_id}&export=download'
+
+
+            # Download the zip file
+            response = requests.get(download_url)
+            response.raise_for_status()  # Raise an exception for bad responses
+
+            # Extract the text file from the zip
             with zipfile.ZipFile(io.BytesIO(response.content)) as z:
-                # Assuming there is only one file in the zip
-                file_name = z.namelist()[0]
-                with z.open(file_name) as f:
-                    # Detect the encoding
-                    result = chardet.detect(f.read())
-                    encoding = result['encoding']
-                    f.seek(0)
-                    # Load the data into a pandas DataFrame
-                    data = pd.read_csv(f, sep='|', encoding=encoding)
-            return data
+                text_file_name = z.namelist()[0]  # Assuming only one file in the zip
+                with z.open(text_file_name) as text_file:
+                    # Detect encoding
+                    rawdata = text_file.read(10000)
+                    encoding = chardet.detect(rawdata)['encoding']
+                    print(f"Detected encoding: {encoding}")
+                    
+                    # Read the data into a pandas DataFrame
+                    text_file.seek(0)  # Reset file pointer
+                    df = pd.read_csv(text_file, sep='|', encoding=encoding)
+                    
+            return df
+
         except Exception as e:
-            print(f"An error occurred: {e}")
+            print(f"Error loading data: {e}")
             return None
